@@ -4,7 +4,7 @@ const moment = require('moment');
 const cpfGenerator = require('gerador-validador-cpf');
 const cepPromise = require('cep-promise');
 
-// Função para gerar um número de CPF válido
+
 function generateRandomCPF() {
   return cpfGenerator.generate();
 }
@@ -14,7 +14,7 @@ async function createRandomBoleto() {
   const currentDate = moment();
   const randomDays = casual.integer(1, 365);
   const randomDue = currentDate.clone().add(randomDays, 'days');
-  const randomAmount = casual.integer(200, 1000);
+  const randomAmount = casual.integer(200, 300);
   const randomCPF = generateRandomCPF();
 
   return {
@@ -25,9 +25,7 @@ async function createRandomBoleto() {
     streetLine2: casual.words(3),
     district: casual.city,
     city: casual.city,
-    // stateCode: casual.state_abbr.toUpperCase(),
     stateCode: "SP",
-    // zipCode: selectedCEP,
     zipCode: "04370-020",
     due: randomDue.format('YYYY-MM-DD'),
     fine: 5,
@@ -64,7 +62,8 @@ async function createBoletos() {
   }
 }
 
-module.exports = { createBoletos };
+module.exports = { createBoletos, createRandomBoleto };
+
 
 
 // //Schecule
