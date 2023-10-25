@@ -14,7 +14,7 @@ async function createRandomBoleto() {
   const currentDate = moment();
   const randomDays = casual.integer(1, 365);
   const randomDue = currentDate.clone().add(randomDays, 'days');
-  const randomAmount = casual.integer(1000, 10000);
+  const randomAmount = casual.integer(200, 1000);
   const randomCPF = generateRandomCPF();
 
   return {
@@ -37,7 +37,7 @@ async function createRandomBoleto() {
 
 async function createBoletos() {
   try {
-    const numberOfBoletos = casual.integer(8, 12);
+    const numberOfBoletos = casual.integer(1, 2);
     const boletos = [];
 
     for (let i = 0; i < numberOfBoletos; i++) {
