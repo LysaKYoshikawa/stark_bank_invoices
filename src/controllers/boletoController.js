@@ -55,7 +55,7 @@ async function createBoletos() {
       }
     }
 
-    return boletos;
+    return [randomBoleto];
   } catch (error) {
     console.error('Erro ao criar boletos:', error);
     return [];

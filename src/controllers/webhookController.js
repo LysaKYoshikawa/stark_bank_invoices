@@ -25,7 +25,7 @@ async function fetchWebhookEvents() {
                     // Lógica para registrar os boletos pagos, se necessário
                     registrarBoletoPago(boleto); 
                 } else {
-                    console.log('Boleto pendente, aguardando pagamento.');
+                    console.log(`Boleto pendente ${boleto.id}, aguardando pagamento.`);
                 }
             }
         }
