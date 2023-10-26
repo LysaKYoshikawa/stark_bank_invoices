@@ -1,6 +1,7 @@
 # :page_with_curl: stark_bank_invoices
 <div style="display: flex; justify-content: center; align-items: center;">
-    ![Fluxograma da tarefa desenhando o passa a passo do desenvolvimento](/img/image.png)
+    ![image](https://github.com/LysaKYoshikawa/stark_bank_invoices/assets/64383080/2b4a4cef-d632-4fef-91d2-37310945cac0)
+
 </div>
 #  :star: About the project
 This project is an application that generates invoices, and after these invoices are paid, they are marked as paid, and their fees are deducted. With the webhook connection, the transfer is sent to the bank.
