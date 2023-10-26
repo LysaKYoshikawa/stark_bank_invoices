@@ -1,15 +1,33 @@
-//validar nomenclatura e se existe model para nodejs
-// export view boleto = {
-//     "amount": int,  // R$ 235,71
-//     name: 'Buzz Aldrin',
-//     taxId: '012.345.678-90',
-//     streetLine1: 'Av. Paulista, 200',
-//     streetLine2: '10 andar',
-//     district: 'Bela Vista',
-//     city: 'São Paulo',
-//     stateCode: 'SP',
-//     zipCode: '01310-000',
-//     due: '2020-04-30',
-//     fine: 5,  // 5%
-//     interest: 2.5,  // 2.5% per month
-// }
+
+class Boleto {
+    constructor({
+      amount,
+      name,
+      taxId,
+      streetLine1,
+      streetLine2,
+      district,
+      city,
+      stateCode,
+      zipCode,
+      due,
+      fine,
+      interest,
+    }) {
+      this.amount = amount;
+      this.name = name;
+      this.taxId = taxId;
+      this.streetLine1 = streetLine1;
+      this.streetLine2 = streetLine2;
+      this.district = district;
+      this.city = city;
+      this.stateCode = stateCode;
+      this.zipCode = zipCode;
+      this.due = due;
+      this.fine = fine;
+      this.interest = interest;
+    }
+  }
+  
+  module.exports = Boleto;
+  

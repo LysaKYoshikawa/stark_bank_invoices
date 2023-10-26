@@ -3,21 +3,22 @@ const casual = require('casual');
 const moment = require('moment');
 const cpfGenerator = require('gerador-validador-cpf');
 const cepPromise = require('cep-promise');
+const Boleto = require('./boletoModel');
 
-// Função para gerar um número de CPF válido
+
 function generateRandomCPF() {
   return cpfGenerator.generate();
 }
 
-// Função para criar um boleto com informações aleatórias
+
 async function createRandomBoleto() {
   const currentDate = moment();
   const randomDays = casual.integer(1, 365);
   const randomDue = currentDate.clone().add(randomDays, 'days');
-  const randomAmount = casual.integer(1000, 10000);
+  const randomAmount = casual.integer(200, 300);
   const randomCPF = generateRandomCPF();
 
-  return {
+  const boletoData = {
     amount: randomAmount,
     name: casual.full_name,
     taxId: randomCPF,
@@ -25,14 +26,16 @@ async function createRandomBoleto() {
     streetLine2: casual.words(3),
     district: casual.city,
     city: casual.city,
-    // stateCode: casual.state_abbr.toUpperCase(),
     stateCode: "SP",
-    // zipCode: selectedCEP,
     zipCode: "04370-020",
     due: randomDue.format('YYYY-MM-DD'),
     fine: 5,
     interest: 2.5,
   };
+
+  const boleto = new Boleto(boletoData);
+
+  return boleto
 }
 
 async function createBoletos() {
@@ -57,30 +60,31 @@ async function createBoletos() {
       }
     }
 
-    return boletos;
+    return [randomBoleto];
   } catch (error) {
     console.error('Erro ao criar boletos:', error);
     return [];
   }
 }
 
-module.exports = { createBoletos };
+module.exports = { createBoletos, createRandomBoleto };
 
 
-// //Schecule
-// let executionCount = 0;
 
-// async function createAndScheduleBoletos() {
-//   await createBoletos();
-//   executionCount++;
+//Schecule
+let executionCount = 0;
 
-//   if (executionCount * 3 * 60 * 60 * 1000 <= 24 * 60 * 60 * 1000) {
-//     // Agende a próxima execução em 3 horas
-//     setTimeout(createAndScheduleBoletos, 3 * 60 * 60 * 1000); // 3 horas em milissegundos
-//   } else {
-//     console.log('Limite de 24 horas alcançado. Encerrando a programação.');
-//   }
-// }
+async function createAndScheduleBoletos() {
+  await createBoletos();
+  executionCount++;
 
-// // Inicie a primeira execução
-// createAndScheduleBoletos();
+  if (executionCount * 3 * 60 * 60 * 1000 <= 24 * 60 * 60 * 1000) {
+    // Agende a próxima execução em 3 horas
+    setTimeout(createAndScheduleBoletos, 3 * 60 * 60 * 1000); // 3 horas em milissegundos
+  } else {
+    console.log('Limite de 24 horas alcançado. Encerrando a programação.');
+  }
+}
+
+// Inicie a primeira execução
+createAndScheduleBoletos();
