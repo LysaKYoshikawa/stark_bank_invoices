@@ -3,13 +3,14 @@ const casual = require('casual');
 const moment = require('moment');
 const cpfGenerator = require('gerador-validador-cpf');
 const cepPromise = require('cep-promise');
+const Boleto = require('./boletoModel');
 
 
 function generateRandomCPF() {
   return cpfGenerator.generate();
 }
 
-// Função para criar um boleto com informações aleatórias
+
 async function createRandomBoleto() {
   const currentDate = moment();
   const randomDays = casual.integer(1, 365);
@@ -17,7 +18,7 @@ async function createRandomBoleto() {
   const randomAmount = casual.integer(200, 300);
   const randomCPF = generateRandomCPF();
 
-  return {
+  const boletoData = {
     amount: randomAmount,
     name: casual.full_name,
     taxId: randomCPF,
@@ -31,11 +32,15 @@ async function createRandomBoleto() {
     fine: 5,
     interest: 2.5,
   };
+
+  const boleto = new Boleto(boletoData);
+
+  return boleto
 }
 
 async function createBoletos() {
   try {
-    const numberOfBoletos = casual.integer(1, 2);
+    const numberOfBoletos = casual.integer(8, 12);
     const boletos = [];
 
     for (let i = 0; i < numberOfBoletos; i++) {
@@ -66,20 +71,20 @@ module.exports = { createBoletos, createRandomBoleto };
 
 
 
-// //Schecule
-// let executionCount = 0;
+//Schecule
+let executionCount = 0;
 
-// async function createAndScheduleBoletos() {
-//   await createBoletos();
-//   executionCount++;
+async function createAndScheduleBoletos() {
+  await createBoletos();
+  executionCount++;
 
-//   if (executionCount * 3 * 60 * 60 * 1000 <= 24 * 60 * 60 * 1000) {
-//     // Agende a próxima execução em 3 horas
-//     setTimeout(createAndScheduleBoletos, 3 * 60 * 60 * 1000); // 3 horas em milissegundos
-//   } else {
-//     console.log('Limite de 24 horas alcançado. Encerrando a programação.');
-//   }
-// }
+  if (executionCount * 3 * 60 * 60 * 1000 <= 24 * 60 * 60 * 1000) {
+    // Agende a próxima execução em 3 horas
+    setTimeout(createAndScheduleBoletos, 3 * 60 * 60 * 1000); // 3 horas em milissegundos
+  } else {
+    console.log('Limite de 24 horas alcançado. Encerrando a programação.');
+  }
+}
 
-// // Inicie a primeira execução
-// createAndScheduleBoletos();
+// Inicie a primeira execução
+createAndScheduleBoletos();

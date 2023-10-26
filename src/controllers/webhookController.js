@@ -2,6 +2,7 @@ const starkbank = require('starkbank');
 const transferController = require('./transferController');
 
 
+
 async function fetchWebhookEvents() {
     try {
         let events = await starkbank.event.query({
@@ -13,16 +14,12 @@ async function fetchWebhookEvents() {
             if (event.subscription === 'boleto' && event.log && event.log.boleto) {
                 const boleto = event.log.boleto;
                 if (boleto.status === 'paid') {
-                    // Boletos pagos
                     const valorRecebido = await calcularValorRecebido(event);
                     console.log(`Valor Recebido: R$ ${valorRecebido}`);
 
-                
                     const transferencia = await transferController.realizarTransferencia(valorRecebido, boleto)
                     console.log(`Tranferencia realizada : ${transferencia}`);
 
-                
-                    // Lógica para registrar os boletos pagos, se necessário
                     registrarBoletoPago(boleto); 
                 } else {
                     console.log(`Boleto pendente ${boleto.id}, aguardando pagamento.`);
@@ -35,12 +32,11 @@ async function fetchWebhookEvents() {
 }
 
 async function calcularValorRecebido(event) {
-    // console.log("calculando taxas", event)
     if (event.subscription === 'boleto' && event.log && event.log.boleto) {
         const boleto = event.log.boleto;
-        const valorOriginal = boleto.amount / 100; // Converta centavos para reais
-        const taxa = boleto.fee / 100; // Converta centavos para reais
-        const multa = boleto.fine / 100; // Converta centavos para reais
+        const valorOriginal = boleto.amount / 100; 
+        const taxa = boleto.fee / 100; 
+        const multa = boleto.fine / 100; 
 
         let valorRecebido = valorOriginal;
 
@@ -51,7 +47,7 @@ async function calcularValorRecebido(event) {
         // Verifica se há descontos e aplica-os
         if (boleto.discounts && boleto.discounts.length > 0) {
             for (const desconto of boleto.discounts) {
-                const descontoValor = desconto.amount / 100; // Converta centavos para reais
+                const descontoValor = desconto.amount / 100; 
                 valorRecebido -= descontoValor;
             }
         }
@@ -63,7 +59,6 @@ async function calcularValorRecebido(event) {
     return 0; // Caso o evento não seja relacionado a boletos
 }
 
-// Lista de boletos pagos
 const boletosPagos = [];
 
 function registrarBoletoPago(boleto) {

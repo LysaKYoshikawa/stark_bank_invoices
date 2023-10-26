@@ -1,10 +1,9 @@
 const starkbank = require('starkbank');
+// const dataTransfer = require('./starkbankConfig.js')
 
-// Função para realizar a transferência
 async function realizarTransferencia(valorRecebido, boleto) {
 
-    try{
-        
+    try {
         const externalId = `transfer-boleto-${boleto.id}`;
         const transfer = await starkbank.transfer.create([{
             amount: valorRecebido,
@@ -14,10 +13,10 @@ async function realizarTransferencia(valorRecebido, boleto) {
             name: 'Stark Bank S.A.',
             taxId: '20.018.183/0001-80',
             accountType: 'payment',
-            externalId: externalId, // Use um identificador único
+            externalId: externalId,
             tags: ['transfer'],
         }]);
-    
+
         if (transfer.length > 0) {
             console.log(`Transferência realizada para o boleto ID ${boleto.id}`);
             console.log(transfer);
@@ -29,7 +28,7 @@ async function realizarTransferencia(valorRecebido, boleto) {
         console.error('Erro ao realizar a transferencia:', error);
         return null
     }
-    
+
 }
 
 // async function consultarTransferencia() {
