@@ -5,8 +5,8 @@ const transferController = require('./transferController');
 async function fetchWebhookEvents() {
     try {
         let events = await starkbank.event.query({
-            after: '2023-10-23',
-            before: '2023-10-24',
+            after: '2023-10-24',
+            before: '2023-10-25',
         });
         for await (let event of events) {
         

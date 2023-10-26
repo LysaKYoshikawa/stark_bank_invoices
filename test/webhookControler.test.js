@@ -1,4 +1,4 @@
-const fetchWebhookEvents = require('../controllers/fetchWebhookEvents'); // Importe o módulo que você deseja testar
+const fetchWebhookEvents = require('../src/controllers/webhookController.js'); // Importe o módulo que você deseja testar
 
 // Mock do módulo starkbank para evitar chamadas reais à API
 jest.mock('starkbank', () => ({
@@ -10,8 +10,8 @@ jest.mock('starkbank', () => ({
           boleto: {
             id: '1',
             status: 'paid',
-            amount: 10000, // Valor em centavos
-            fee: 500, // Valor em centavos
+            amount: 200, // Valor em centavos
+            fee: 100, // Valor em centavos
             fine: 200, // Valor em centavos
           },
         },
@@ -21,7 +21,7 @@ jest.mock('starkbank', () => ({
 }));
 
 // Mock do transferController para evitar chamadas reais à API
-const transferController = require('../controllers/transferController');
+const transferController = require('../src/controllers/transferController');
 transferController.realizarTransferencia = jest.fn();
 
 describe('fetchWebhookEvents', () => {
