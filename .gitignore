@@ -1,4 +1,8 @@
+#Modulos e diversos
 node_modules
-keys
-starkbankConfig.js
 coverage
+
+# Chaves e acessos de configuração de apis
+keys/privateKey.pem
+keys/publicKey.pem
+starkbankConfig.js
