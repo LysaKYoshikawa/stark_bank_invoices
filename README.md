@@ -13,10 +13,11 @@ One of my main challenges was working with webhooks. As this was not a technolog
 
 - [x]  Consume API
 - [x]  Logic to create invoices
-- [x]   Handling of paid status
-- [x]   Deduction of discounts
-- [x]   Adding transfers
-- [x]   Scheduling for script execution
+- [x]  Handling of paid status
+- [x]  Deduction of discounts
+- [x]  Adding transfers
+- [x]  Scheduling for script execution
+- [x]  Unit Test
 
 # :computer: Technologies and Tools
 
